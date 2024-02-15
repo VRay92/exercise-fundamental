@@ -31,7 +31,7 @@ function fizzBuzz(n) {
         console.log(value)
         fizzBuzzArr.push(value)
     }
-    return fizzBuzzArr;
+    return fizzBuzzArr.toString();
 }
 
 console.log(fizzBuzz(15))
