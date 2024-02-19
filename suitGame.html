@@ -1,0 +1,100 @@
+<script>
+alert("Welcome to SUIT GAME");
+alert("Pada permainan ini anda akan bermain suit melawan CPU(computer). Silahkan tentukan pilihan suit anda. Bila WIN anda mendapatkan 25 point, bila LOSE atau DRAW anda tidak mendapatkan point.");
+let winCount = 0;
+let drawCount = 0;
+let loseCount = 0;
+const running = true
+
+while (running){
+
+    //////////// MENU //////////////
+    let input = 0
+    input = parseInt(prompt("Select one:\n1. GUNTING\n2. BATU\n3. KERTAS"));
+
+    ////////// CPU INPUT ///////////
+    let randomGenerator = Math.round(Math.random()*9)
+    let CPUinput = ""
+
+    if(randomGenerator <= 3){
+        CPUinput = "GUNTING✂️" 
+    } else if (randomGenerator > 3 && randomGenerator <= 6) {
+        CPUinput = "KERTAS✋"
+    } else if (randomGenerator > 6 && randomGenerator <= 9) {
+        CPUinput = "BATU🪨"
+    }
+    
+    /////// PLAYER SELECTION ///////
+    if (input === 1){ //player memilih GUNTING
+        
+        if (CPUinput === "KERTAS✋"){
+            winCount++
+            alert(`Player: GUNTING✂️ VS CPU: ${CPUinput}\nResult: Player WIN 🏆`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "GUNTING✂️"){
+            drawCount++
+            alert(`Player: GUNTING✂️ VS CPU: ${CPUinput}\nResult: DRAW🟰`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "BATU🪨"){
+            loseCount++
+            alert(`Player: GUNTING✂️ VS CPU: ${CPUinput}\nResult: Player LOSE ❌`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        }
+
+    } else if (input === 2){ //player memilih BATU
+
+        if (CPUinput === "GUNTING✂️"){
+            winCount++
+            alert(`Player: BATU🪨 VS CPU: ${CPUinput}\nResult: Player WIN 🏆`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "BATU🪨"){
+            drawCount++
+            alert(`Player: BATU🪨 VS CPU: ${CPUinput}\nResult: DRAW🟰`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "KERTAS✋") {
+            loseCount++
+            alert(`Player: BATU🪨 VS CPU: ${CPUinput}\nResult: Player LOSE ❌`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        }
+        
+    } else if (input === 3){ //player memilih KERTAS
+
+        if (CPUinput === "BATU🪨") {
+            winCount++
+            alert(`Player: KERTAS✋ VS CPU: ${CPUinput}\nResult: Player WIN 🏆`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "KERTAS✋") {
+            drawCount++
+            alert(`Player: KERTAS✋ VS CPU: ${CPUinput}\nResult: DRAW🟰`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        } else if (CPUinput === "GUNTING✂️") {
+            loseCount++
+            alert(`Player: KERTAS✋ VS CPU: ${CPUinput}\nResult: Player LOSE ❌`)
+            alert(`WIN: ${winCount}\nLOSE: ${loseCount}\nDRAW: ${drawCount}`)
+        }
+    
+    /////////// VALIDASI ///////////
+    } else if (isNaN(input) || input > 3 || input === "") {
+        alert("*INVALID* please input number 1,2 or 3");
+    } 
+
+    /////////// END RESULT /////////
+    if (input <= 3) {
+        let yes = confirm("Lanjut bermain?\n\nPilih OK untuk melanjutkan\nPilih CANCEL untuk mengakhiri dan melihat score\n\n")
+        if (!yes) {
+            alert(`Result:\n🏆WIN: ${winCount}\n❌LOSE: ${loseCount}\n🟰DRAW: ${drawCount}\nFinal Score: ${winCount*25}`)
+            if (winCount*25 <= 50) {
+                alert("Anda mendapatkan BRONZE Medal🥉");
+            } else if(winCount*25 > 50 && winCount*25 <= 75) {
+                alert("Selamat. Anda mendapatkan SILVER Medal🥈");
+            } else if(winCount*25 > 75) {
+                alert("Hebat! Anda mendapatkan GOLD Medal🥇");   
+            }
+            alert(`Ranking list:\nSkor 0-50: BRONZE\nSkor 51-75: SILVER\nSkor75+: GOLD`)
+            break;
+            
+        } 
+    } 
+}  
+
+</script>
