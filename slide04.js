@@ -1,19 +1,27 @@
 //exercise no 1
-function createTriangle (height) {
-    let result = ""
-    let result1 = ""
-    let finalresult = ""
-    for (let i =1 ; i < height ; i++){
-    result = result + (`0${i} `)
+const createTriangle = (height) => {
+    let print = "";
+    let count = 1;
+    // loop untuk berpindah baris
+    for (let index = 0 ; index < height; index++){
+        // loop untuk membuat kolom
+        for (let j = 0 ; j <= index; j++){
+            if (count <10) {
+                print += "0"
+            }
+            //task
+            print += `${count} `;
+            //console.log(print);
+            count++;
+        }
+        // Backslash n untuk berpindah baris
+        print += "\n"
     }
-    for (let j =1 ; j < height-1 ; j++){
-    result = result + (`0${j+1}\n`)
-    }
-    finalresult = result + result1
-    return finalresult
-}
+    return print;
+};
 
-console.log(createTriangle(5))
+console.log(createTriangle(4))
+
 
 // exercise no 2
 
@@ -57,7 +65,7 @@ function BodyMassIndex(weight,height){
 console.log(BodyMassIndex(80,1.78))
 
 // exercise no 4
-let arr1 = [1,2,3,4,5,6,7,8,9,10]
+const arr1 = [1,2,3,4,5,6,7,8,9,10]
 
 function extractEvenNumbers(dataArr){
     let evenArr=[]
