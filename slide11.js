@@ -48,24 +48,18 @@ console.log(findDifferentNumber(nums))
 // exercise no 3
 let s = "bajuri"
 let t = "jubari"
-let sArr = []
-let tArr = []
-let result = ""
-console.log(s.charAt(1))
-console.log(s.charAt(0))
-for (let i = 0; i < s.length; i++) {
-    sArr.push(s.charAt(i))
-    console.log(sArr)
-}
-for (let j = 0; j < t.length; j++) {
-    tArr.push(s.charAt(j))
-    console.log(tArr)
-}
 
-if (sArr.join("") === tArr.join("")) {
-    result = "true"
+let sArr = s.split("")
+let tArr = t.split("")
+console.log(sArr)
+console.log(tArr)
+const newsArr = sArr.sort()
+const newtArr = tArr.sort()
+console.log(newsArr)
+console.log(newtArr)
+if (newsArr === newtArr) {
+    let result = "true"
 }
-
 console.log(result)
 
 
