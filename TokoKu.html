@@ -1,0 +1,162 @@
+<script>
+    class Item {
+        constructor(name, stock, price) {
+            this.name = name
+            this.stock = stock
+            this.price = price
+        }
+    }
+
+    class Human {
+        constructor(name, wallet, role) {
+            this.name = name
+            this.wallet = wallet
+            this.role = role
+        }
+    }
+
+    let dbHuman = [
+        new Human("Rudi")
+    ]
+
+    let mainData = [
+        new Item("Oreo", 20, 8000),
+        new Item("Chitato", 25, 7000),
+        new Item("Pocari", 15, 6000)
+    ]
+
+    function checkName(name) {
+        for (let i = 0; i < dbHuman.length; i++) {
+            if (dbHuman[i].name === name) {
+                return name
+            }
+        }
+    }
+
+    function showData(arr) {
+        const result = arr.map((arr, index) => {
+            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
+        })
+        return result.join("")
+    }
+
+    function pushData(nameInput, stockInput, priceInput) {
+        let addData = new Item(nameInput, stockInput, priceInput)
+        mainData.push(addData)
+        return addData
+    }
+
+    function newUser(nameInput) {
+        let addData = new Human(nameInput, 0,"User")
+        dbHuman.push(addData)
+    }
+
+    function showAddedData(arr) {
+        const result = arr.map((arr, index) => {
+            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
+        })
+        result.splice(0, 0, 'Penambahan data berhasil✅:\n')
+        return result.join("")
+    }
+
+
+    function removeData(arr, deleteIndex) {
+        arr.splice(deleteIndex - 1, 1)
+        const result = arr.map((arr, index) => {
+            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
+        })
+        result.splice(0, 0, 'Hapus data berhasil✅:\n')
+        return result.join("")
+    }
+
+    function showModified(arr) {
+        const result = arr.map((arr, index) => {
+            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
+        })
+        result.splice(0, 0, 'Ubah data berhasil✅:\n')
+        return result.join("")
+    }
+
+    let running = true
+    while (running) {
+        const menu1 = parseInt(prompt("Selamat datang di Toko\n1.Login\n2.Register\n3.Exit"))
+        if (menu1 === 1) {
+            const menu2 = prompt("Silahkan login (nama user/admin)")
+            if (checkName(menu2) || menu2 === "admin"){
+                alert(`Selamat Datang ${menu2}`)
+            } else {
+                alert(`Nama tidak ditemukan`)
+            }
+            if (menu2 === "admin") {
+                const menu3 = parseInt(prompt("Silahkan pilih menu:\n1. Add Product\n2. Remove Product\n3. Edit product\n4. User list\n5. User interaction\n6. Change role\n7. Logout"))
+                if (menu3 === 1) {
+                    while (running) {
+                        let nameInput = prompt("Masukkan nama barang:")
+                        if (nameInput === null) {
+                            break
+                        }
+                        let stockInput = prompt("Masukkan stok:")
+                        let priceInput = prompt("Masukkan harga:")
+                        pushData(nameInput, stockInput, priceInput)
+                        alert(showAddedData(mainData))
+                        let yes = confirm("Tambah produk lagi?");
+                        if (!yes) {
+                            alert("Penambahan produk selesai")
+                            break
+                        }
+                    }
+                } else if (menu3 === 2) {
+                    while (running) {
+                        let deleteIndex = parseInt(prompt(`${showData(mainData)}\nMasukkan nomor barang yang akan dihapus`))
+                        if (deleteIndex === null) {
+                            break
+                        }
+                        alert(removeData(mainData, deleteIndex))
+                        let yes = confirm("Hapus produk lagi?");
+                        if (!yes) {
+                            alert("Hapus data selesai")
+                            break
+                        }
+                    }
+
+                } else if (menu3 === 3) {
+                    while (running) {
+                        let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(mainData)}`))
+                        if (editIndex === null) {
+                            break
+                        }
+                        let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
+                        if (chooseIndex === 1) {
+                            let nameInput2 = prompt(`Masukkan nama yang baru:`)
+                            mainData[editIndex - 1].name = nameInput2
+                        } else if (chooseIndex === 2) {
+                            let stockInput2 = parseInt(prompt("Masukkan stok barang yang baru:"))
+                            mainData[editIndex - 1].stock = stockInput2
+                        } else if (chooseIndex === 3) {
+                            let priceInput2 = parseInt(prompt("Masukkan harga yang baru:"))
+                            mainData[editIndex - 1].price = priceInput2
+                        }
+                        let yes = confirm("Ubah data lagi?");
+                        if (!yes) {
+                            alert("Ubah data selesai")
+                            break
+                        }
+                    }
+
+                } else if (menu3 === 4) {
+                    while (running) {
+                        let
+                    }
+                }
+            } else if (checkName(menu2) === menu2) {
+                alert("page 2")
+            }
+        } else if (menu1 === 2) {
+            let inputName = prompt("Masukkan nama anda")
+            newUser(inputName)
+        } else if (menu1 === 3) {
+            alert("Page 3")
+        }       
+    }
+
+</script>
