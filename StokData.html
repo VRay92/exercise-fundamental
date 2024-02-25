@@ -6,12 +6,14 @@
             this.price = price
         }
     }
-    let mainData = [
+
+
+    let dbItem = [
         new Item("Sepatu", 20, 85000),
         new Item("Kaos", 15, 55000),
         new Item("Jaket", 6, 105000)
     ]
-    console.log(mainData[0].name)
+    console.log(dbItem[0].name)
     function showData(arr) {
         const result = arr.map((arr, index) => {
             return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
@@ -21,16 +23,8 @@
 
     function pushData(nameInput, stockInput, priceInput) {
         let addData = new Item(nameInput, stockInput, priceInput)
-        mainData.push(addData)
+        dbItem.push(addData)
         return addData
-    }
-
-    function showAddedData(arr) {
-        const result = arr.map((arr, index) => {
-            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
-        })
-        result.splice(0,0,'Penambahan data berhasil✅:\n')
-        return result.join("")
     }
 
     function removeData(arr,deleteIndex) {
@@ -42,42 +36,35 @@
         return result.join("")
     }
 
-    function showModified(arr){
-        const result = arr.map((arr, index) => {
-            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
-        })
-        result.splice(0,0,'Ubah data berhasil✅:\n')
-        return result.join("")
-    }
-
     let running = true
 
     while (running) {
         let menu = prompt("Mulai manage data :\nA. Lihat data\nB. Tambah data\nC. Hapus data\nD. Update data\nE. Exit").toUpperCase()
         if (menu === "A") {
-            alert(showData(mainData))
+            alert(showData(dbItem))
         } else if (menu === "B") {
             let nameInput = prompt("Masukkan nama barang:")
             let stockInput = prompt("Masukkan stok:")
             let priceInput = prompt("Masukkan harga:")
             pushData(nameInput, stockInput, priceInput)
-            alert(showAddedData(mainData))
+            alert('Penambahan data berhasil✅:\n'+ showData(dbItem))
         } else if (menu === "C") {
-            let deleteIndex = parseInt(prompt(`${showData(mainData)}\nMasukkan no yang akan dihapus`))
-            alert(removeData(mainData,deleteIndex))
+            let deleteIndex = parseInt(prompt(`${showData(dbItem)}\nMasukkan no yang akan dihapus`))
+            alert(removeData(dbItem,deleteIndex))
         } else if (menu === "D") {
-            let editIndex = parseInt(prompt(`Masukkan no yang akan diubah: \n${showData(mainData)}`))
+            let editIndex = parseInt(prompt(`Masukkan no yang akan diubah: \n${showData(dbItem)}`))
             let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
             if (chooseIndex === 1){
                 let nameInput2 = prompt(`Masukkan nama yang akan diubah:`)
-                mainData[editIndex-1].name = nameInput2
+                dbItem[editIndex-1].name = nameInput2
             }else if (chooseIndex === 2){
                 let stockInput2 = parseInt(prompt("Masukkan stok barang yang baru:"))
-                mainData[editIndex-1].stock = stockInput2
+                dbItem[editIndex-1].stock = stockInput2
             }else if (chooseIndex === 3){
                 let priceInput2 = parseInt(prompt("Masukkan nama barang baru:"))
-                mainData[editIndex-1].price = priceInput2   
+                dbItem[editIndex-1].price = priceInput2   
             }
+            alert('Ubah data berhasil✅:\n'+ showData(dbItem))
         } else if (menu === "E") {
             let yes = confirm("Kembali ke menu")
             if (!yes) {
