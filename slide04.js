@@ -1,4 +1,4 @@
-//exercise no 1
+//exercise no.1
 const createTriangle = (height) => {
     let print = "";
     let count = 1;
@@ -23,7 +23,7 @@ const createTriangle = (height) => {
 console.log(createTriangle(4))
 
 
-// exercise no 2
+// exercise no.2
 
 function fizzBuzz(n) {
     let fizzBuzzArr = []
@@ -44,7 +44,7 @@ function fizzBuzz(n) {
 
 console.log(fizzBuzz(15))
 
-// exercise no 3
+// exercise no.3
 
 function BodyMassIndex(weight,height){
     const BMI = weight / height;
@@ -64,7 +64,7 @@ function BodyMassIndex(weight,height){
 
 console.log(BodyMassIndex(80,1.78))
 
-// exercise no 4
+// exercise no.4
 const arr1 = [1,2,3,4,5,6,7,8,9,10]
 
 function extractEvenNumbers(dataArr){
@@ -80,7 +80,7 @@ function extractEvenNumbers(dataArr){
 
 console.log(extractEvenNumbers(arr1))
 
-// exercise no 5
+// exercise no.5
 
 function splitcloning(text,separator){
     let container = []
