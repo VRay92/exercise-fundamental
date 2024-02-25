@@ -19,7 +19,7 @@
         new Human("Rudi")
     ]
 
-    let mainData = [
+    let dbItem = [
         new Item("Oreo", 20, 8000),
         new Item("Chitato", 25, 7000),
         new Item("Pocari", 15, 6000)
@@ -42,7 +42,7 @@
 
     function pushData(nameInput, stockInput, priceInput) {
         let addData = new Item(nameInput, stockInput, priceInput)
-        mainData.push(addData)
+        dbItem.push(addData)
         return addData
     }
 
@@ -51,29 +51,11 @@
         dbHuman.push(addData)
     }
 
-    function showAddedData(arr) {
-        const result = arr.map((arr, index) => {
-            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
-        })
-        result.splice(0, 0, 'Penambahan data berhasil✅:\n')
-        return result.join("")
-    }
-
-
     function removeData(arr, deleteIndex) {
         arr.splice(deleteIndex - 1, 1)
         const result = arr.map((arr, index) => {
             return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
         })
-        result.splice(0, 0, 'Hapus data berhasil✅:\n')
-        return result.join("")
-    }
-
-    function showModified(arr) {
-        const result = arr.map((arr, index) => {
-            return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
-        })
-        result.splice(0, 0, 'Ubah data berhasil✅:\n')
         return result.join("")
     }
 
@@ -98,7 +80,7 @@
                         let stockInput = prompt("Masukkan stok:")
                         let priceInput = prompt("Masukkan harga:")
                         pushData(nameInput, stockInput, priceInput)
-                        alert(showAddedData(mainData))
+                        alert("Penambahan data berhasil✅:\n" + showData(dbItem))
                         let yes = confirm("Tambah produk lagi?");
                         if (!yes) {
                             alert("Penambahan produk selesai")
@@ -107,11 +89,11 @@
                     }
                 } else if (menu3 === 2) {
                     while (running) {
-                        let deleteIndex = parseInt(prompt(`${showData(mainData)}\nMasukkan nomor barang yang akan dihapus`))
+                        let deleteIndex = parseInt(prompt(`${showData(dbItem)}\nMasukkan nomor barang yang akan dihapus`))
                         if (deleteIndex === null) {
                             break
                         }
-                        alert(removeData(mainData, deleteIndex))
+                        alert('Hapus data berhasil✅:\n'+removeData(dbItem, deleteIndex))
                         let yes = confirm("Hapus produk lagi?");
                         if (!yes) {
                             alert("Hapus data selesai")
@@ -121,21 +103,22 @@
 
                 } else if (menu3 === 3) {
                     while (running) {
-                        let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(mainData)}`))
+                        let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(dbItem)}`))
                         if (editIndex === null) {
                             break
                         }
                         let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
                         if (chooseIndex === 1) {
                             let nameInput2 = prompt(`Masukkan nama yang baru:`)
-                            mainData[editIndex - 1].name = nameInput2
+                            dbItem[editIndex - 1].name = nameInput2
                         } else if (chooseIndex === 2) {
                             let stockInput2 = parseInt(prompt("Masukkan stok barang yang baru:"))
-                            mainData[editIndex - 1].stock = stockInput2
+                            dbItem[editIndex - 1].stock = stockInput2
                         } else if (chooseIndex === 3) {
                             let priceInput2 = parseInt(prompt("Masukkan harga yang baru:"))
-                            mainData[editIndex - 1].price = priceInput2
+                            dbItem[editIndex - 1].price = priceInput2
                         }
+                        alert('Ubah data berhasil✅:\n'+showData(dbItem))
                         let yes = confirm("Ubah data lagi?");
                         if (!yes) {
                             alert("Ubah data selesai")
@@ -149,7 +132,7 @@
                     }
                 }
             } else if (checkName(menu2) === menu2) {
-                alert("page 2")
+                prompt(showData(dbItem) + "Silahkan input barang yang akan dibeli")
             }
         } else if (menu1 === 2) {
             let inputName = prompt("Masukkan nama anda")
