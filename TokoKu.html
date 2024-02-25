@@ -128,15 +128,12 @@
             } else {
                 alert(`Nama tidak ditemukan`)
             }
-            if (menu2 === "Peter") {
+            if (menu2 === "Peter") { ///// LOGIN ADMIN
                 while (running) {
                     const menu3 = parseInt(prompt("Silahkan pilih menu:\n1. Add Product\n2. Remove Product\n3. Edit product\n4. User list\n5. User interaction\n6. Change role\n7. Logout"))
-                    if (menu3 === 1) {
+                    if (menu3 === 1) { // menu tambah produk
                         while (running) {
                             let nameInput = prompt("Masukkan nama barang:")
-                            if (nameInput === null) {
-                                break
-                            }
                             let stockInput = prompt("Masukkan stok:")
                             let priceInput = prompt("Masukkan harga:")
                             pushData(nameInput, stockInput, priceInput)
@@ -147,7 +144,7 @@
                                 break
                             }
                         }
-                    } else if (menu3 === 2) {
+                    } else if (menu3 === 2) { // menu hapus produk
                         while (running) {
                             let deleteIndex = parseInt(prompt(`${showData(dbProduct)}\nMasukkan nomor barang yang akan dihapus`))
                             if (isNaN(deleteIndex)) {
@@ -163,10 +160,11 @@
                             }
                         }
 
-                    } else if (menu3 === 3) {
+                    } else if (menu3 === 3) { // menu edit produk
                         while (running) {
                             let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(dbProduct)}`))
-                            if (editIndex === null) {
+                            if (isNaN(editIndex)) {
+                                alert('input Invalid')
                                 break
                             }
                             let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
@@ -188,21 +186,21 @@
                             }
                         }
 
-                    } else if (menu3 === 4) {
+                    } else if (menu3 === 4) { //memperlihatkan daftar user
                         while (running) {
                             alert(showUser(dbHuman))
                             break
                         }
-                    } else if(menu3 === 7) {
+                    } else if(menu3 === 7) { // menu untuk berhenti
                         break
                     }
                 }
-            } else if (checkName(menu2) === menu2) {
+            } else if (checkName(menu2) === menu2) { ////// LOGIN USER
                 while (running) {
-                    let chooseIndex2 = parseInt(prompt(showData(dbProduct) + "Silahkan input barang yang akan dibeli"))
-                    let stockInput3 = parseInt(prompt(`Stok ${dbProduct[chooseIndex2 - 1].name} =  ${dbProduct[chooseIndex2 - 1].stock}, masukkan jumlah barang yang akan dibeli:`))
-                    dbProduct[chooseIndex2 - 1].stock -= stockInput3
-                    transaction.addCart(dbProduct[chooseIndex2 - 1], stockInput3)
+                    let chooseIndex2 = parseInt(prompt(showData(dbProduct) + "Silahkan input barang yang akan dibeli")) //input index barang yang akan dibeli
+                    let stockInput3 = parseInt(prompt(`Stok ${dbProduct[chooseIndex2 - 1].name} =  ${dbProduct[chooseIndex2 - 1].stock}, masukkan jumlah barang yang akan dibeli:`))//input jumlah barang yang akan dibeli
+                    dbProduct[chooseIndex2 - 1].stock -= stockInput3 //mengurangi stok barang di database yang sudah dibeli
+                    transaction.addCart(dbProduct[chooseIndex2 - 1], stockInput3) // memasukkan ke cart
                     let yes = confirm("Beli produk lain?");
                     if (!yes) {
                         while (true) {
@@ -224,7 +222,7 @@
                     }
                 }
             }
-        } else if (menu1 === 2) {
+        } else if (menu1 === 2) { // menambahkan user baru
             let inputName = prompt("Masukkan nama anda")
             newUser(inputName)
         } else if (menu1 === 3) {
