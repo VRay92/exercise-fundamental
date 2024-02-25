@@ -1,5 +1,5 @@
 <script>
-    class Item {
+    class Product {
         constructor(name, stock, price) {
             this.name = name
             this.stock = stock
@@ -8,23 +8,69 @@
     }
 
     class Human {
-        constructor(name, wallet, role) {
+        constructor(name, role) {
             this.name = name
-            this.wallet = wallet
             this.role = role
         }
     }
 
+    class Transaction {
+        constructor() {
+            this.cart = []
+        }
+
+        //menambahkan barang ke cart
+        addCart = (product, qty = 1) => {
+            this.cart.push({
+                product: { ...product, qty },
+                total: qty * product?.price
+            });
+        }
+
+        //menghitung total harga barang pada cart
+        totalPayment = () => {
+            let amount = 0;
+            this.cart.forEach((val) => (amount += val.total));
+            return amount;
+        };
+
+        //memunculkan hasil pembelian dan menampilkan hasil hitungan totalpayment
+        checkout = () => {
+            let print = "";
+            this.cart.forEach((val, idx) => {
+                print += `${idx + 1}. ${val.product.name
+                    }, ${val.product.price.toLocaleString("id", {
+                        style: "currency",
+                        currency: "IDR",
+                    })}, Qty: ${val.product.qty}, ${val.total.toLocaleString("id", {
+                        style: "currency",
+                        currency: "IDR",
+                    })}\n`;
+            });
+            print += `Total price : ${this.totalPayment().toLocaleString("id", {
+                style: "currency",
+                currency: "IDR",
+            })}`;
+
+            return print;
+        };
+
+    }
+
     let dbHuman = [
-        new Human("Rudi")
+        new Human("Rudi", "User"),
+        new Human("Peter", "Admin")
     ]
 
-    let dbItem = [
-        new Item("Oreo", 20, 8000),
-        new Item("Chitato", 25, 7000),
-        new Item("Pocari", 15, 6000)
+    let dbProduct = [
+        new Product("Oreo", 20, 8000),
+        new Product("Chitato", 25, 7000),
+        new Product("Pocari", 15, 6000)
     ]
 
+    let transaction = new Transaction()
+
+    //fungsi untuk memeriksa apakah input sesuai dengan nama yang ada pada database
     function checkName(name) {
         for (let i = 0; i < dbHuman.length; i++) {
             if (dbHuman[i].name === name) {
@@ -33,6 +79,7 @@
         }
     }
 
+    //menampilkan nama barang, stok, beserta harga
     function showData(arr) {
         const result = arr.map((arr, index) => {
             return `${index + 1}. ${arr.name}, stoknya ${arr.stock}, Rp.${arr.price.toLocaleString()},-\n`
@@ -40,17 +87,28 @@
         return result.join("")
     }
 
+    // menampilkan nama pengguna beserta rolenya
+    function showUser(arr) {
+        const result = arr.map((arr, index) => {
+            return `${index + 1}. ${arr.name}, Role: ${arr.role}\n`
+        })
+        return result.join("")
+    }
+
+    // memasukkan data barang, stok, beserta harga yang diinput ke dalam database
     function pushData(nameInput, stockInput, priceInput) {
-        let addData = new Item(nameInput, stockInput, priceInput)
-        dbItem.push(addData)
+        let addData = new Product(nameInput, stockInput, priceInput)
+        dbProduct.push(addData)
         return addData
     }
 
+    // menambah user baru
     function newUser(nameInput) {
-        let addData = new Human(nameInput, 0,"User")
+        let addData = new Human(nameInput, "User")
         dbHuman.push(addData)
     }
 
+    //menghapus data barang dari database
     function removeData(arr, deleteIndex) {
         arr.splice(deleteIndex - 1, 1)
         const result = arr.map((arr, index) => {
@@ -59,87 +117,119 @@
         return result.join("")
     }
 
+
     let running = true
     while (running) {
-        const menu1 = parseInt(prompt("Selamat datang di Toko\n1.Login\n2.Register\n3.Exit"))
+        const menu1 = parseInt(prompt("Selamat datang di TokoKu 🏠\n1.Login\n2.Register\n3.Exit"))
         if (menu1 === 1) {
-            const menu2 = prompt("Silahkan login (nama user/admin)")
-            if (checkName(menu2) || menu2 === "admin"){
-                alert(`Selamat Datang ${menu2}`)
+            const menu2 = prompt("Silahkan login nama Anda") // input nama
+            if (checkName(menu2)) {
+                alert(`Selamat Datang ${menu2}`)    // pengecekan data berdasarkan nama
             } else {
                 alert(`Nama tidak ditemukan`)
             }
-            if (menu2 === "admin") {
-                const menu3 = parseInt(prompt("Silahkan pilih menu:\n1. Add Product\n2. Remove Product\n3. Edit product\n4. User list\n5. User interaction\n6. Change role\n7. Logout"))
-                if (menu3 === 1) {
-                    while (running) {
-                        let nameInput = prompt("Masukkan nama barang:")
-                        if (nameInput === null) {
-                            break
+            if (menu2 === "Peter") {
+                while (running) {
+                    const menu3 = parseInt(prompt("Silahkan pilih menu:\n1. Add Product\n2. Remove Product\n3. Edit product\n4. User list\n5. User interaction\n6. Change role\n7. Logout"))
+                    if (menu3 === 1) {
+                        while (running) {
+                            let nameInput = prompt("Masukkan nama barang:")
+                            if (nameInput === null) {
+                                break
+                            }
+                            let stockInput = prompt("Masukkan stok:")
+                            let priceInput = prompt("Masukkan harga:")
+                            pushData(nameInput, stockInput, priceInput)
+                            alert("Penambahan data berhasil✅:\n" + showData(dbProduct))
+                            let yes = confirm("Tambah produk lagi?");
+                            if (!yes) {
+                                alert("Penambahan produk selesai")
+                                break
+                            }
                         }
-                        let stockInput = prompt("Masukkan stok:")
-                        let priceInput = prompt("Masukkan harga:")
-                        pushData(nameInput, stockInput, priceInput)
-                        alert("Penambahan data berhasil✅:\n" + showData(dbItem))
-                        let yes = confirm("Tambah produk lagi?");
-                        if (!yes) {
-                            alert("Penambahan produk selesai")
-                            break
+                    } else if (menu3 === 2) {
+                        while (running) {
+                            let deleteIndex = parseInt(prompt(`${showData(dbProduct)}\nMasukkan nomor barang yang akan dihapus`))
+                            if (isNaN(deleteIndex)) {
+                                alert('input Invalid')
+                                break
+                            }
+                            removeData(dbProduct, deleteIndex)
+                            alert('Hapus data berhasil✅:\n' + showData(dbProduct))
+                            let yes = confirm("Hapus produk lagi?");
+                            if (!yes) {
+                                alert("Hapus data selesai")
+                                break
+                            }
                         }
-                    }
-                } else if (menu3 === 2) {
-                    while (running) {
-                        let deleteIndex = parseInt(prompt(`${showData(dbItem)}\nMasukkan nomor barang yang akan dihapus`))
-                        if (deleteIndex === null) {
-                            break
-                        }
-                        alert('Hapus data berhasil✅:\n'+removeData(dbItem, deleteIndex))
-                        let yes = confirm("Hapus produk lagi?");
-                        if (!yes) {
-                            alert("Hapus data selesai")
-                            break
-                        }
-                    }
 
-                } else if (menu3 === 3) {
-                    while (running) {
-                        let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(dbItem)}`))
-                        if (editIndex === null) {
-                            break
+                    } else if (menu3 === 3) {
+                        while (running) {
+                            let editIndex = parseInt(prompt(`Masukkan nomor barang yang akan diubah: \n${showData(dbProduct)}`))
+                            if (editIndex === null) {
+                                break
+                            }
+                            let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
+                            if (chooseIndex === 1) {
+                                let nameInput2 = prompt(`Masukkan nama yang baru:`)
+                                dbProduct[editIndex - 1].name = nameInput2
+                            } else if (chooseIndex === 2) {
+                                let stockInput2 = parseInt(prompt("Masukkan stok barang yang baru:"))
+                                dbProduct[editIndex - 1].stock = stockInput2
+                            } else if (chooseIndex === 3) {
+                                let priceInput2 = parseInt(prompt("Masukkan harga yang baru:"))
+                                dbProduct[editIndex - 1].price = priceInput2
+                            }
+                            alert('Ubah data berhasil✅:\n' + showData(dbProduct))
+                            let yes = confirm("Ubah data lagi?");
+                            if (!yes) {
+                                alert("Ubah data selesai")
+                                break
+                            }
                         }
-                        let chooseIndex = parseInt(prompt(`1.Ubah nama\n2.Ubah stok\n3.Ubah harga`))
-                        if (chooseIndex === 1) {
-                            let nameInput2 = prompt(`Masukkan nama yang baru:`)
-                            dbItem[editIndex - 1].name = nameInput2
-                        } else if (chooseIndex === 2) {
-                            let stockInput2 = parseInt(prompt("Masukkan stok barang yang baru:"))
-                            dbItem[editIndex - 1].stock = stockInput2
-                        } else if (chooseIndex === 3) {
-                            let priceInput2 = parseInt(prompt("Masukkan harga yang baru:"))
-                            dbItem[editIndex - 1].price = priceInput2
-                        }
-                        alert('Ubah data berhasil✅:\n'+showData(dbItem))
-                        let yes = confirm("Ubah data lagi?");
-                        if (!yes) {
-                            alert("Ubah data selesai")
-                            break
-                        }
-                    }
 
-                } else if (menu3 === 4) {
-                    while (running) {
-                        let
+                    } else if (menu3 === 4) {
+                        while (running) {
+                            alert(showUser(dbHuman))
+                            break
+                        }
+                    } else if(menu3 === 7) {
+                        break
                     }
                 }
             } else if (checkName(menu2) === menu2) {
-                prompt(showData(dbItem) + "Silahkan input barang yang akan dibeli")
+                while (running) {
+                    let chooseIndex2 = parseInt(prompt(showData(dbProduct) + "Silahkan input barang yang akan dibeli"))
+                    let stockInput3 = parseInt(prompt(`Stok ${dbProduct[chooseIndex2 - 1].name} =  ${dbProduct[chooseIndex2 - 1].stock}, masukkan jumlah barang yang akan dibeli:`))
+                    dbProduct[chooseIndex2 - 1].stock -= stockInput3
+                    transaction.addCart(dbProduct[chooseIndex2 - 1], stockInput3)
+                    let yes = confirm("Beli produk lain?");
+                    if (!yes) {
+                        while (true) {
+                            alert(`Total belanja anda adalah:\n${transaction.checkout()}`)
+                            let moneyInput = prompt("Silahkan input pembayaran uang anda\n(hanya menerima pecahan Rp.10.000,- , Rp.20.000,-, Rp.50.000,- dan Rp.100.000,-)")
+                            if (moneyInput < transaction.totalPayment()) {
+                                alert("Maaf uang anda kurang")
+                            } else {
+                                alert(`Terima kasih telah melakukan pembayaran, kembalian anda sebesar Rp.${(moneyInput - (transaction.totalPayment())).toLocaleString()},-`)
+                                transaction.cart = []
+                                alert(showData(dbProduct))
+                                break
+                            }
+                        }
+                        let yes2 = confirm("Ingin berbelanja lagi?");
+                        if (!yes2) {
+                            break
+                        }
+                    }
+                }
             }
         } else if (menu1 === 2) {
             let inputName = prompt("Masukkan nama anda")
             newUser(inputName)
         } else if (menu1 === 3) {
-            alert("Page 3")
-        }       
+            break
+        }
     }
 
 </script>
