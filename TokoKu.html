@@ -1,3 +1,20 @@
+<!-- 
+MENU TOKO
+TERBAGI DARI 2 MENU UTAMA
+1. Menu untuk admin:
+- Add product
+- Remove product
+- Edit product
+- User list
+- Logout
+
+2. Menu untuk User:
+- Menampilkan daftar produk
+- Input barang yang akan dibeli
+- Total harga barang (checkout)
+- Menu selesai 
+-->
+
 <script>
     class Product {
         constructor(name, stock, price) {
@@ -117,7 +134,7 @@
         return result.join("")
     }
 
-
+    ////////////////////////////////////CODE UTAMA/////////////////
     let running = true
     while (running) {
         const menu1 = parseInt(prompt("Selamat datang di TokoKu 🏠\n1.Login\n2.Register\n3.Exit"))
@@ -191,28 +208,34 @@
                             alert(showUser(dbHuman))
                             break
                         }
-                    } else if(menu3 === 7) { // menu untuk berhenti
+                    } else if (menu3 === 7) { // menu untuk berhenti
                         break
                     }
                 }
             } else if (checkName(menu2) === menu2) { ////// LOGIN USER
                 while (running) {
-                    let chooseIndex2 = parseInt(prompt(showData(dbProduct) + "Silahkan input barang yang akan dibeli")) //input index barang yang akan dibeli
+                    const chooseIndex2 = parseInt(prompt(showData(dbProduct) + "Silahkan input barang yang akan dibeli")) //input index barang yang akan dibeli
                     let stockInput3 = parseInt(prompt(`Stok ${dbProduct[chooseIndex2 - 1].name} =  ${dbProduct[chooseIndex2 - 1].stock}, masukkan jumlah barang yang akan dibeli:`))//input jumlah barang yang akan dibeli
                     dbProduct[chooseIndex2 - 1].stock -= stockInput3 //mengurangi stok barang di database yang sudah dibeli
                     transaction.addCart(dbProduct[chooseIndex2 - 1], stockInput3) // memasukkan ke cart
                     let yes = confirm("Beli produk lain?");
                     if (!yes) {
-                        while (true) {
+                        payment: while (true) {
                             alert(`Total belanja anda adalah:\n${transaction.checkout()}`)
                             let moneyInput = prompt("Silahkan input pembayaran uang anda\n(hanya menerima pecahan Rp.10.000,- , Rp.20.000,-, Rp.50.000,- dan Rp.100.000,-)")
                             if (moneyInput < transaction.totalPayment()) {
                                 alert("Maaf uang anda kurang")
+                                let cancel = confirm("Batalkan pembayaran?")
+                                if (cancel) {
+                                    alert("Pembayaran dibatalkan")
+                                    dbProduct[chooseIndex2 - 1].stock += stockInput3
+                                    break payment
+                                }
                             } else {
                                 alert(`Terima kasih telah melakukan pembayaran, kembalian anda sebesar Rp.${(moneyInput - (transaction.totalPayment())).toLocaleString()},-`)
                                 transaction.cart = []
                                 alert(showData(dbProduct))
-                                break
+                                break payment
                             }
                         }
                         let yes2 = confirm("Ingin berbelanja lagi?");
